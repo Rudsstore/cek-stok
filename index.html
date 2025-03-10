@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stok Produk</title>
+    <!-- Menghubungkan file CSS eksternal -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        /* Gaya dasar untuk body */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1A3C5E;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Gaya untuk container utama */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gaya untuk header */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            color: #fff;
+        }
+
+        /* Gaya untuk tabel */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            color: #fff;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container utama -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><b>Stok Produk</b></h1>
+        </div>
+
+        <!-- Section untuk menampilkan hasil -->
+        <div id="result"></div>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Fungsi untuk mengambil dan menampilkan stok produk
+        function cekStock() {
+            fetch("proxy.php") // Ganti dengan endpoint API yang sesuai
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const result = document.getElementById('result');
+                    result.innerHTML = ''; // Bersihkan hasil sebelumnya
+
+                    // Buat tabel untuk menampilkan stok
+                    const table = document.createElement('table');
+                    const thead = document.createElement('thead');
+                    const tbody = document.createElement('tbody');
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    result.appendChild(table);
+
+                    // Buat header tabel
+                    const headerRow = document.createElement('tr');
+                    const th1 = document.createElement('th');
+                    th1.innerHTML = 'Produk';
+                    headerRow.appendChild(th1);
+                    const th2 = document.createElement('th');
+                    th2.innerHTML = 'Stok';
+                    headerRow.appendChild(th2);
+                    thead.appendChild(headerRow);
+
+                    // Daftar produk yang akan ditampilkan
+                    const produkList = {
+                        'xl_bekasan_5': 'Bekasan L 5 Hari - [Rp.8.000]',
+                        'xl_bekasan_7': 'Bekasan L 7 Hari - [Rp.10.000]',
+                        'xl_bekasan_9': 'Bekasan L 9 Hari - [Rp.12.000]',
+                        'xl_bekasan_11': 'Bekasan L 11 Hari - [Rp.14.000]',
+                        'xl_bekasan_13': 'Bekasan L 13 Hari - [Rp.16.000]',
+                        'xl_bekasan_15': 'Bekasan L 15 Hari - [Rp.18.000]',
+                        'xl_bekasan_17': 'Bekasan L 17 Hari - [Rp.20.000]',
+                        'xl_bekasan_19': 'Bekasan L 19 Hari - [Rp.22.000]',
+                        'xxl_bekasan_5': 'Bekasan XXL 5 Hari - [Rp.11.000]',
+                        'xxl_bekasan_7': 'Bekasan XXL 7 Hari - [Rp.14.000]',
+                        'xxl_bekasan_9': 'Bekasan XXL 9 Hari - [Rp.16.000]',
+                        'xxl_bekasan_11': 'Bekasan XXL 11 Hari - [Rp.18.000]',
+                        'xxl_bekasan_13': 'Bekasan XXL 13 Hari - [Rp.20.000]',
+                        'xxl_bekasan_15': 'Bekasan XXL 15 Hari - [Rp.22.000]',
+                        'xxl_bekasan_17': 'Bekasan XXL 17 Hari - [Rp.24.000]',
+                        'xxl_bekasan_19': 'Bekasan XXL 19 Hari - [Rp.26.000]',
+                        'xl_only': 'SuperMini - [Rp.43.000]',
+                        'xl_only_v2': 'Supermini PROMO - [Rp.40.000]',
+                        'xxl_only': 'SuperBig - [Rp.60.000]',
+                        'xxl_only_v2': 'Superbig PROMO - [Rp.50.000]',
+                        'xl_no_rw': 'Mini - [Rp.54.000]',
+                        'xl_rw': 'Big - [Rp.60.000]',
+                        'xl_rw_mega': 'Mega Big - [Rp.90.000]',
+                        'xxl_rw': 'Jumbo - [Rp.80.000]',
+                        'xxl_rw_v2': 'Jumbo V2 - [Rp.67.000]'
+                    };
+
+                    // Loop melalui produkList dan tambahkan ke tabel
+                    for (const key in produkList) {
+                        const row = document.createElement('tr');
+                        tbody.appendChild(row);
+                        const td1 = document.createElement('td');
+                        td1.innerHTML = produkList[key]; // Nama produk
+                        row.appendChild(td1);
+                        const td2 = document.createElement('td');
+                        td2.innerHTML = data.data[key] || '0'; // Stok produk (default 0 jika tidak ada)
+                        row.appendChild(td2);
+                    }
+                })
+                .catch(error => {
+                    const result = document.getElementById('result');
+                    result.innerHTML = 'Error: ' + error.message;
+                });
+        }
+
+        // Panggil fungsi cekStock saat halaman dimuat
+        window.onload = cekStock;
+    </script>
+</body>
+</html>
