@@ -78,7 +78,7 @@
     <script>
         // Fungsi untuk mengambil dan menampilkan stok produk
         function cekStock() {
-            fetch("https://rudsstore.my.id/proxy.php") // Ganti dengan endpoint API yang sesuai
+            fetch("https://panel.khfy-store.com/api/api-xl-v7/cek_stock_akrab") // Ganti dengan endpoint API yang sesuai
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
